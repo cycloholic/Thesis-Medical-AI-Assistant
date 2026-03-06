@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//comment
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 @RestController
 public class MedicalAIApplication {
