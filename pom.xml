@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
     <groupId>com.medical.ai</groupId>
-    <artifactId>Thesis-Medical-AI-Assistant</artifactId>
+    <artifactId>Medical-AI-Assistant</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <dependencies>
         <dependency>
