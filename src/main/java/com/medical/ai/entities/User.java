@@ -42,8 +42,18 @@ public class User {
      */
     public User() {}
 
-    // Getters and Setters
+    /**
+     * Custom Constructor.
+     */
+    public User(String username, String password, String phoneNumber) {
+        this.username = username;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
 
+    /**
+     * Getters and Setters.
+      */
     public Long getId() {
 
         return id;
