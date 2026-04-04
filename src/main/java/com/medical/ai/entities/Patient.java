@@ -1,40 +1,70 @@
 package com.medical.ai.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.*; // Import all necessary JPA annotations
+import java.util.List; // Import for managing lists of medical cases
 
+/**
+ * Entity class representing a Patient in the system.
+ * This class is mapped to the 'patients' table in the MySQL database.
+ */
 @Entity
-@Table(name = "patients") // Mapping the class to the 'patients' table in MySQL
+@Table(name = "patients")
 public class Patient {
 
-    @Id // This is our Primary Key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment (1, 2, 3...) handled by MySQL
+    /**
+     * Unique identifier for each patient.
+     * Generated automatically by the database (Auto-increment).
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long patientId;
 
-    @Column(nullable = false) // Full name is mandatory (NOT NULL)
+    /**
+     * Patient's full name.
+     * Mapped to a column in the 'patients' table and is mandatory.
+     */
+    @Column(nullable = false)
     private String fullName;
 
-    @Column(unique = true, nullable = false) // AMKA must be unique and is required
+    /**
+     * Social Security Number (AMKA) for the patient.
+     * Must be unique and is required for identification.
+     */
+    @Column(unique = true, nullable = false)
     private String amka;
 
-    private int age; // Optional field, defaults to 0 if not set
+    /**
+     * Patient's age.
+     * Optional field for demographic information.
+     */
+    private int age;
 
-    private String gender; // Optional field for patient's gender
+    /**
+     * Patient's gender.
+     * Optional field for medical records.
+     */
+    private String gender;
 
-    // Relationship: One patient can have many appointments
-    // Cascade ALL means if we delete the patient, their appointments are deleted too
+    /**
+     * Relationship mapping: One patient can have multiple medical cases.
+     * CascadeType.ALL ensures that all operations (e.g., delete) propagate to the cases.
+     */
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<MedicalCase> medicalCases;
 
-    // Standard default constructor for JPA
+    /**
+     * Default constructor required by JPA/Hibernate.
+     */
     public Patient() {}
 
-    // Constructor to easily create a new patient with basic info
+    /**
+     * Constructor to initialize a patient with basic information.
+     */
     public Patient(String fullName, String amka, int age, String gender) {
         this.fullName = fullName;
         this.amka = amka;
         this.age = age;
         this.gender = gender;
-
     }
 
     // Getters and Setters
@@ -86,9 +116,13 @@ public class Patient {
     public void setMedicalCases(List<MedicalCase> medicalCases) {
         this.medicalCases = medicalCases;
     }
-    // Helper method to add a single medical case
+
+    /**
+     * Helper method to add a single medical case to the patient.
+     * This method maintains the bidirectional relationship.
+     */
     public void addMedicalCase(MedicalCase medicalCase) {
         this.medicalCases.add(medicalCase);
-        medicalCase.setPatient(this); // This links the case back to this specific patient
+        medicalCase.setPatient(this);
     }
 }
