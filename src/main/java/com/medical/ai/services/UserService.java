@@ -47,6 +47,20 @@ public class UserService {
         // Δημιουργούμε ένα νέο User με τα απολύτως απαραίτητα πεδία
         User user = new User();
         user.setUsername(request.getUsername());
+        /**
+         * - request.getPassword()          → το plaintext που έστειλε το frontend (π.χ. "qwerty1")
+         * - passwordEncoder                → είναι ένα BCryptPasswordEncoder (δηλωμένο στο SecurityConfig.java:84)
+         * - .encode(request.getPassword()) → η BCrypt αλγόριθμος:
+         *    1. Παράγει ένα τυχαίο salt (22 χαρακτήρες base64)
+         *    2. Κάνει hash το plaintext + salt (2^rounds iterations)
+         *    3. Επιστρέφει ένα string της μορφής: $2a$10$.salt.hash
+         *       - $2a → version BCrypt
+         *       - 10 → cost factor (rounds = 2^10 = 1024)
+         *       - salt → 22 χαρακτήρες
+         *       - hash → 31 χαρακτήρες
+         *       - user.setPassword(...) → αποθηκεύει ΑΥΤΟ το ολόκληρο string στη στήλη password της βάσης
+         *       - Η βάση ΔΕΝ έχει plaintext ποτέ. Έχει π.χ.: $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy
+         */
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
